@@ -3062,6 +3062,10 @@ function handle_curl_error() {
 }
 
 function download_windows_server() {
+    if [ "${FILE_NAME}" != "" ]; then
+        return
+    fi
+
     local iso_download_page_html=""
     # Copyright (C) 2024 Elliot Killick <contact@elliotkillick.com>
     # This function is adapted from the Mido project:
@@ -3172,6 +3176,10 @@ function download_windows_server() {
 }
 
 function download_windows_workstation() {
+    if [ "${FILE_NAME}" != "" ]; then
+        return
+    fi
+
     local HASH=""
     local session_id=""
     local iso_download_page_html=""
@@ -3279,6 +3287,12 @@ function download_windows_workstation() {
 }
 
 function get_windows() {
+    if [ "${FILE_NAME}" != "" ]; then
+        mkdir "${VM_PATH}"
+        cp -v "${FILE_NAME}" "${VM_PATH}/$(basename "${FILE_NAME}")"
+        FILE_NAME=$(basename "${FILE_NAME}")
+    fi
+
     if [ "${OS}" == "windows-server" ]; then
         download_windows_server "windows-server-${RELEASE}"
     else
